@@ -13,6 +13,8 @@
 # TODO
 #multi-interface handling
 #connect to network without passwd
+#delete network profiles
+#static ip address & gateway
 PWD=$(pwd)
 cd script/wifi
 get_interface_name() {
