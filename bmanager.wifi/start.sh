@@ -8,17 +8,39 @@
 #iputils2
 #coreutils (OF CURSE)
 # RUN AS ROOT
-# run in folder with write permisions
+# run inside folder with write permisions (generate multiples files)
 
 # TODO
-#multi-interface handling
+#multi-interface handling @             DONE,testing remains
 #connect to network without passwd
+#connect to hidden networks
+#connect to WEP/Ad-Hoc networks
+#check of network scaned cipher
+#update display() with AP mac...
 #delete network profiles
 #static ip address & gateway
+#support ap mode creation
+#exception handling when input from keyboard
+#multiple OS
+
 PWD=$(pwd)
 cd script/wifi
+
 get_interface_name() {
     WLAN=$(iw dev | grep Interface | cut -d " " -f 2)
+    count=0
+    for i in $WLAN;
+    do
+	count=$(expr $count + 1)
+    done
+    if [ $count != 1 ];then
+	echo "Select interface to use: "
+	#exception handling remain
+	read INPUT
+	WLAN=$(echo $WLAN | cut -d " " -f $INPUT)
+    fi
+    
+	
 }
 
 check_interface() {
@@ -67,6 +89,8 @@ display(){
 	printf "${i}: SSID:\"${ssid}\" ${freq}MHz  ${db}\n"
     done
     
+    
+    
 }
 
 reading() {
@@ -93,7 +117,7 @@ creating_wpa() {
 	echo "file config exist... skipping"
     else
 	
-	echo "Enter ${CONF} passwd"
+	echo "Enter ${CONF} passwd:"
 	wpa_passphrase  "${CONF}" > "${CONF}.conf"
 	
     fi

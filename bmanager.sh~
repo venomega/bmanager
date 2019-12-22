@@ -1,0 +1,35 @@
+#!/usr/bin/bash
+
+# bmanager; script for network managment
+
+
+
+
+
+check_modules() {
+    MODULES=""
+    token=$(ls | grep bmanager | grep -v bmanager.sh)
+    for i in $token;
+    do
+	if [ -d ./"$i" ]; then
+	    MODULES=("$MODULES $i  ")
+	fi
+    done
+    echo $MODULES
+}
+
+show_modules(){
+    echo "We have: $MODULES"
+}
+
+menu(){
+    clear
+    show_modules
+}
+
+main() {
+    check_modules
+    menu
+}
+
+main
