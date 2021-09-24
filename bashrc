@@ -6,17 +6,11 @@ PS1='$(cat /sys/class/power_supply/BAT1/capacity) ${debian_chroot:+($debian_chro
 # umask 022
 
 # You may uncomment the following lines if you want `ls' to be colorized:
-# export LS_OPTIONS='--color=auto'
+export LS_OPTIONS='--color=auto'
 # eval "`dircolors`"
-# alias ls='ls $LS_OPTIONS'
-# alias ll='ls $LS_OPTIONS -l'
-# alias l='ls $LS_OPTIONS -lA'
-#
-# Some more alias to avoid making mistakes:
-# alias rm='rm -i'
-# alias cp='cp -i'
-# alias mv='mv -i'
-
+alias ls='ls $LS_OPTIONS'
+alias proxy='source /usr/local/bin/set_proxy.sh'
+alias unproxy='unset http_proxy'
 function brighness()
 {
   location="/sys/class/backlight/intel_backlight/brightness"
@@ -31,4 +25,14 @@ function brighness()
   if [[ $1 == "down" ]];then
     echo $(expr `cat $location` - 1250) > $location
   fi
+}
+
+function arduino()
+{
+cat <<EOF > `pwd`/Makefile
+# Arduino Make file. Refer to https://github.com/sudar/Arduino-Makefile
+
+BOARD_TAG    = nano328
+include /usr/src/arduino/Arduino.mk
+EOF
 }
